@@ -1,0 +1,58 @@
+[
+  {
+    "idCenso": 1,
+    "nroIntegrantesFamilia": 10,
+    "descripcion": "Local comercial venta de ropa",
+    "direccion": "Centro Comercial",
+    "haveGenerador": false
+  },
+  {
+    "idCenso": 2,
+    "nroIntegrantesFamilia": 8,
+    "descripcion": "Vivienda compartiendo generador con otra vivienda - M",
+    "direccion": "Menfis Alto - Modificado",
+    "haveGenerador": false
+  },
+  {
+    "idCenso": 3,
+    "nroIntegrantesFamilia": 20,
+    "descripcion": "Oficina Juridica 3 pisos, no utilizan generador",
+    "direccion": "Centro Norte",
+    "haveGenerador": false
+  },
+  {
+    "idCenso": 4,
+    "nroIntegrantesFamilia": 8,
+    "descripcion": "local comercial de comidas modificado ",
+    "direccion": "Centro Norte M",
+    "haveGenerador": false,
+    "generador": {
+      "idGenerador": 1,
+      "consumo_litrosHora": 120,
+      "kw": 330,
+      "costo": 650.75,
+      "tipo": "Gasolina"
+    }
+  },
+  {
+    "idCenso": 5,
+    "nroIntegrantesFamilia": 10,
+    "descripcion": "Consultorio Dental",
+    "direccion": "Centro Norte",
+    "haveGenerador": false
+  },
+  {
+    "idCenso": 6,
+    "nroIntegrantesFamilia": 19,
+    "descripcion": "Local Venta de Computadoras",
+    "direccion": "Centro Comercial",
+    "haveGenerador": true,
+    "generador": {
+      "idGenerador": 2,
+      "consumo_litrosHora": 30,
+      "kw": 28,
+      "costo": 750.5,
+      "tipo": "Diesel"
+    }
+  }
+]

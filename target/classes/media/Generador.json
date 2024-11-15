@@ -1,0 +1,16 @@
+[
+  {
+    "idGenerador": 1,
+    "consumo_litrosHora": 120,
+    "kw": 330,
+    "costo": 650.75,
+    "tipo": "Gasolina"
+  },
+  {
+    "idGenerador": 2,
+    "consumo_litrosHora": 30,
+    "kw": 28,
+    "costo": 750.5,
+    "tipo": "Diesel"
+  }
+]
