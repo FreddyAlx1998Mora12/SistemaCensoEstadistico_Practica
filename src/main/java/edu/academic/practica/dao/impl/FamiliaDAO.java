@@ -40,7 +40,8 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	}
 
 	/*
-	 * ########################################## CreateReadUpdateDelete
+	 * ########################################## 
+	 * CreateReadUpdateDelete
 	 * ##########################################
 	 */
 	// Create
@@ -131,7 +132,7 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 			Familia[] aux = (Familia[]) listita.toArray();
 
 			for (int i = 0; i < aux.length; i++) {
-				// Si el apellido empieza con las letras del texto que tiene como parametro
+
 				if (aux[i].getIdCenso() == id) {
 					censo = aux[i];
 				}
@@ -151,7 +152,7 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 			Familia[] aux = (Familia[]) listita.toArray();
 			listita.reset();
 			for (int i = 0; i < aux.length; i++) {
-				// Si el apellido empieza con las letras del texto que tiene como parametro
+
 				if (aux[i].getDireccion().toLowerCase().equalsIgnoreCase(direccion.toLowerCase())) {
 					listita.add(aux[i]);
 				}
@@ -173,7 +174,7 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 			listita.reset();
 
 			for (int i = 0; i < aux.length; i++) {
-				// Si el apellido empieza con las letras del texto que tiene como parametro
+
 				if (aux[i].isHaveGenerador() == criterio) {
 					listita.add(aux[i]);
 				}
@@ -194,7 +195,7 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 			listita.reset();
 
 			for (int i = 0; i < aux.length; i++) {
-				// Si el apellido empieza con las letras del texto que tiene como parametro
+
 				if (aux[i].getNroIntegrantesFamilia() == n_integrantes) {
 					listita.add(aux[i]);
 				}
@@ -214,7 +215,7 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 			Familia[] aux = (Familia[]) listita.toArray();
 
 			for (int i = 0; i < aux.length; i++) {
-				// Si el apellido empieza con las letras del texto que tiene como parametro
+
 				if (aux[i].getDescripcion().toLowerCase().equalsIgnoreCase(descripcion.toLowerCase())) {
 					censo = aux[i];
 				}
@@ -353,7 +354,7 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	
 	// linked list Direccion 
 	public MyLinkedList buscarporDireccion_Binario(String direccion) throws Exception {
-	    // 1. Primero obtenemos la lista ordenada por dirección (de la a a la z)
+	    // 1. Primero obtenemos la lista ordenada por dirección (de la a a la z -> ascendente)
 	    MyLinkedList list_ordenada = ordenarLista(1, "direccion");
 
 	    // 2. Convertimos la lista a un array
@@ -436,7 +437,7 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	}
 
 	private Boolean verify(Familia a, Familia b, Integer type_order, String atributo) {
-		if (type_order == 1) {
+		if (type_order == 1) { // Ascendente
 			if (atributo.equalsIgnoreCase("direccion")) {
 				return a.getDireccion().toLowerCase().compareTo(b.getDireccion().toLowerCase()) > 0;
 			} else if (atributo.equalsIgnoreCase("haveGenerador")) {
@@ -463,29 +464,38 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	/*
 	 * Metodo de Ordenacion QuickSort
 	 */
-
 	public MyLinkedList ordenarListaQuickSort(int tipo_orden, String atributo) {
-		// Obtenemos la lista desordenada
+		
 		MyLinkedList list = getListFamilias();
-
-		// Convertimos la lista a un arreglo de Familia[]
 		Familia[] array = (Familia[]) list.toArray();
 
 		list.reset();
 
-		// Llamamos al método QuickSort para ordenar el arreglo
+		// Método QuickSort para ordenar el arreglo
+		// Parametros , array, valor indic bajo, valor indic alto (ultimo), tipo orden, atributo
 		quickSort(array, 0, array.length - 1, tipo_orden, atributo);
 
-		// Convertimos el arreglo ordenado de nuevo a MyLinkedList
 		list.tolist(array);
 
 		return list;
 	}
 
 	// Método de QuickSort que ordena el arreglo
+	/**
+	 * Funcion sin valor de retorno que realiza la ordenacion de una lista por 
+	 * tipo de orden
+	 * @param array arreglo del Objeto a ordenar
+	 * @param bajo valor bajo del array principio
+	 * @param alto valor alto del array final
+	 * @param type_order tipo de orden 1 asc, 0 desc
+	 * @param atributo criterio
+	 */
 	private void quickSort(Familia[] array, int bajo, int alto, int type_order, String atributo) {
+		// Controlar de modo que debido a la recursion el metodo se acaba cuando bajo es >= alto
 		if (bajo < alto) {
-			// Encontramos el índice de partición
+			
+			// Variable indice del pivote
+			// Particiona y ordena		
 			int pi = particion_array(array, bajo, alto, type_order, atributo);
 
 			// Recursivamente ordenamos las dos sublistas
@@ -497,24 +507,28 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	// Método para realizar la partición del arreglo, retorna indice del pivote
 	private int particion_array(Familia[] array, int bajo, int alto, int type_order, String atributo) {
 		// Tomamos el último elemento como pivote
+		// Para comparar con los valores bajos		
 		Familia pivote = array[alto];
 
 		// Índice para el menor elemento
 		int i = bajo - 1;
 
 		// Comparamos cada elemento con el pivote
+		// desde el primer elemento hasta el ultimo elemento de la lista		
 		for (int j = bajo; j < alto; j++) {
-			// Compara los elementos
-			if (verify(array[j], pivote, type_order, atributo)) {
-				i++; // Aumentamos el índice de menor elemento
+			// Compara los elementos y verifica, ojo
+			// Recordemos que para verificar que el elemento pivote es mayor que el objeto primero
+			// debo comparar primero el pivote		
+			if (verify(pivote,array[j], type_order, atributo)) {
+				i++; // Aumentamos el índice de menor elemento para seguir comparando con el pivote
 
-				// Intercambiamos elementos
+				// Intercambiamos elementos ya que existe que el elemento efectivamente es mayor al pivote
 				intercambio(array, i, j);
 
 			}
 		}
 
-		// Colocamos el pivote en su posición correcta
+		// El pivote se ubica en su posición natural
 		intercambio(array, i + 1, alto);
 
 		return i + 1; // Devolvemos el índice del pivote
@@ -530,17 +544,14 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	 * Método de Ordenación ShellSort
 	 */
 	public MyLinkedList ordenarListaShellSort(int tipo_orden, String atributo) {
-	    // Obtenemos la lista desordenada
+
 	    MyLinkedList list = getListFamilias();
 
-	    // Convertimos la lista a un arreglo de Familia[]
 	    Familia[] array = (Familia[]) list.toArray();
 
-	    // Llamamos al método ShellSort para ordenar el arreglo
-	    shellSort(array, tipo_orden, atributo);
+	    Familia[] arrayOrdenado = shellSort(array, tipo_orden, atributo);
 
-	    // Convertimos el arreglo ordenado de nuevo a MyLinkedList
-	    list.tolist(array);
+	    list.tolist(arrayOrdenado);
 
 	    return list;
 	}
@@ -548,9 +559,9 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	/*
 	 * Método de ordenación ShellSort
 	 */
-	private void shellSort(Familia[] array, int type_order, String atributo) {
-	    
-	    // Comienza con un valor de gap grande y va reduciéndolo
+	private Familia[] shellSort(Familia[] array, int type_order, String atributo) {
+	    Familia[] arr_ordenado = null;
+	    // Comienza con un valor de gap que es dividir la longitud del arreglo / 2 y va reduciéndolo en mitads
 	    for (int gap = (array.length / 2); gap > 0; gap /= 2) {
 	        // Realizamos una inserción usando el gap actual
 	        for (int i = gap; i < array.length; i++) {
@@ -566,6 +577,9 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	            array[j] = temp; // Colocamos el elemento en la posición correcta
 	        }
 	    }
+	    
+	    arr_ordenado = array;
+	    return arr_ordenado;
 	}
 	
 	/*
@@ -597,29 +611,30 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	        mergeSort(array, bajo, medio, type_order, atributo);
 	        mergeSort(array, medio + 1, alto, type_order, atributo);
 
-	        // Fusionamos las dos mitades ordenadas
-	        merge(array, bajo, medio, alto, type_order, atributo);
+	        // Realiza el merge (fusion)
+	        fusionar_arrays(array, bajo, medio, alto, type_order, atributo);
 	    }
 	}
 
 	// Metodo que fusiona arreglos
-	private void merge(Familia[] array, int bajo, int medio, int alto, int type_order, String atributo) {
+	private void fusionar_arrays(Familia[] array, int bajo, int medio, int alto, int type_order, String atributo) {
 	    // Calcular tamaños de las dos sublistas
-	    int n1 = medio - bajo + 1;
-	    int n2 = alto - medio;
+	    int tamanio_list1 = medio - bajo + 1;
+	    int tamanio_list2 = alto - medio;
 
-	    // Crear arreglos temporales
-	    Familia[] left = new Familia[n1];
-	    Familia[] right = new Familia[n2];
+	    // Dividimos en arreglos temporales
+	    Familia[] left = new Familia[tamanio_list1];
+	    Familia[] right = new Familia[tamanio_list2];
 
 	    // Copiar los datos a los arreglos temporales
-	    System.arraycopy(array, bajo, left, 0, n1);
-	    System.arraycopy(array, medio + 1, right, 0, n2);
+	    //  	arraycopy(Object src, int srcPos, Object dest, int destPos, int length)  
+	    System.arraycopy(array, bajo, left, 0, tamanio_list1);
+	    System.arraycopy(array, medio + 1, right, 0, tamanio_list2);
 
-	    // Fusionamos los dos arreglos temporales
+	    // Establece los indices para recorrer y comparar los arreglos
 	    int i = 0, j = 0, k = bajo;
-	    while (i < n1 && j < n2) {
-	        if (verify(left[i], right[j], type_order, atributo)) {
+	    while (i < tamanio_list1 && j < tamanio_list2) {
+	        if (verify(right[j], left[i], type_order, atributo)) {
 	            array[k] = left[i];
 	            i++;
 	        } else {
@@ -628,16 +643,14 @@ public class FamiliaDAO extends AdapterDao<Familia> {
 	        }
 	        k++;
 	    }
-
 	    // Copiar los elementos restantes de left[], si los hay
-	    while (i < n1) {
+	    while (i < tamanio_list1) {
 	        array[k] = left[i];
 	        i++;
 	        k++;
 	    }
-
 	    // Copiar los elementos restantes de right[], si los hay
-	    while (j < n2) {
+	    while (j < tamanio_list2) {
 	        array[k] = right[j];
 	        j++;
 	        k++;

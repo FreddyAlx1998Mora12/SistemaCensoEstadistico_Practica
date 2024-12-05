@@ -445,9 +445,7 @@ public class ProyectoCensoApi {
 	public Response ordenarMerge(@PathParam("tipo") int tipo_orden, @PathParam("texto") String criterio)
 			throws Exception {
 		HashMap map = new HashMap<>();
-//		PersonaService personaService = new PersonaService();
-		// Validacion que no digite cualquier texto y que tipo no sea menor a 0
-
+		
 		MyLinkedList listaOrdenada = fs.orderByMergeSort(tipo_orden, criterio);
 		map.put("msg", "OK");
 		if (listaOrdenada.isEmptyLinkedList()) {

@@ -1,20 +1,23 @@
 package edu.academic.practica.tda.listas;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Lista Doblemente Enlazada
+ * 
  * @param <E>
  */
 public class MyLinkedList<E> {
 	private Integer size;
 	private Node<E> header, last;
-	
+
 	public MyLinkedList() {
 		this.size = 0;
 		this.header = null;
 		this.last = null;
 	}
-	
+
 	public MyLinkedList(Node<E> header) {
 		this.header = header;
 	}
@@ -42,7 +45,7 @@ public class MyLinkedList<E> {
 	public void setLast(Node<E> last) {
 		this.last = last;
 	}
-	
+
 //	#########################################################
 	public boolean isEmptyLinkedList() {
 		return (this.header == null || this.size == 0);
@@ -68,8 +71,8 @@ public class MyLinkedList<E> {
 	}
 
 	/**
-	 * Funcion para aniadir un nodo al final o cola de 
-	 * la lista doblemente enlazada
+	 * Funcion para aniadir un nodo al final o cola de la lista doblemente enlazada
+	 * 
 	 * @param dato
 	 */
 	private void addLast(E dato) {
@@ -153,12 +156,12 @@ public class MyLinkedList<E> {
 		return last.getInfo();
 	}
 
-	
 	/**
 	 * Metodo que obtiene la informacion de un nodo
+	 * 
 	 * @param index
 	 * @return
-	 * @throws Exception -> excepcion general
+	 * @throws Exception                 -> excepcion general
 	 * @throws IndexOutOfBoundsException -> indice fuera de rango
 	 */
 	public E get(Integer index) throws Exception, IndexOutOfBoundsException {
@@ -200,7 +203,7 @@ public class MyLinkedList<E> {
 		} else if (index == getLength()) { // aniade al final
 			addLast(info);
 		} else {
-			
+
 			Node<E> nodo_posicion = getNode(index); // nodo para enlazar despues del nuevo
 			Node<E> nodo_anterior = nodo_posicion.getPrev();
 
@@ -238,9 +241,9 @@ public class MyLinkedList<E> {
 		} else {
 			// capturar el primer elemento de la lista, desenlazar
 			Node<E> nodo_first = header;
-			if(nodo_first.getNext() == null) { // si el primer elemento no tiene siguiente es decir es el unico
+			if (nodo_first.getNext() == null) { // si el primer elemento no tiene siguiente es decir es el unico
 				reset();
-			}else {				
+			} else {
 				Node<E> nodo_next_first = nodo_first.getNext();
 				this.header = nodo_next_first;
 				this.header.setPrev(null); // rompe enlace
@@ -324,5 +327,291 @@ public class MyLinkedList<E> {
 		}
 		return this; // objeto actual es decir un MylinkedList
 	}
+
+	private Boolean compare(Object a, Object b, Integer type) {
+		switch (type) {
+		case 0:
+			if (a instanceof Number) {
+				Number a1 = (Number) a;
+				Number b1 = (Number) b;
+				return a1.doubleValue() > b1.doubleValue();
+			} else {
+				return (a.toString()).compareTo(b.toString()) > 0;
+			}
+			// break;
+
+		default:
+			if (a instanceof Number) {
+				Number a1 = (Number) a;
+				Number b1 = (Number) b;
+				return a1.doubleValue() < b1.doubleValue();
+			} else {
+
+				return (a.toString()).compareTo(b.toString()) < 0;
+			}
+		}
+
+	}
+
+	// compare class
+	private Boolean atrribute_compare(String attribute, E a, E b, Integer type) throws Exception {
+		return compare(exist_attribute(a, attribute), exist_attribute(b, attribute), type);
+	}
+
+	private Object exist_attribute(E a, String attribute) throws Exception {
+		Method method = null;
+		attribute = attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
+		attribute = "get" + attribute;
+		for (Method aux : a.getClass().getMethods()) {
+			if (aux.getName().contains(attribute)) {
+				method = aux;
+				break;
+			}
+		}
+		if (method == null) {
+			for (Method aux : a.getClass().getSuperclass().getMethods()) {
+				if (aux.getName().contains(attribute)) {
+					method = aux;
+					break;
+				}
+			}
+		}
+		if (method != null) {
+			return method.invoke(a);
+		}
+
+		return null;
+	}
+
+	/*
+	 * Metodos de ordenamiento
+	 */
+	public MyLinkedList<E> quick_Sort(String attribute, Integer type) throws Exception {
+		if (!isEmptyLinkedList()) {
+			E[] lista = this.toArray();
+			reset();
+			quicksortHelper(lista, 0, lista.length - 1, attribute, type);
+			this.tolist(lista);
+		}
+		return this;
+	}
+
+	private void quicksortHelper(E[] lista, int low, int high, String attribute, Integer type)
+			throws Exception {
+		if (low < high) {
+			int pi = particion(lista, low, high, attribute, type);
+			quicksortHelper(lista, low, pi - 1, attribute, type);
+			quicksortHelper(lista, pi + 1, high, attribute, type);
+		}
+	}
+
+	private int particion(E[] lista, int low, int high, String attribute, Integer type) throws Exception {
+		E pivot = lista[high];
+		int i = (low - 1); // Indice del elemento más pequeño
+
+		for (int j = low; j < high; j++) {
+			if (atrribute_compare(attribute, lista[j], pivot, type)) {
+				i++;
+				E temp = lista[i];
+				lista[i] = lista[j];
+				lista[j] = temp;
+			}
+		}
+
+		E temp = lista[i + 1];
+		lista[i + 1] = lista[high];
+		lista[high] = temp;
+
+		return i + 1;
+	}
 	
+	public MyLinkedList<E> quick_Sort_byOrder(int orderType) throws Exception {
+        if (!isEmptyLinkedList()) {
+            E[] lista = this.toArray();
+            reset();
+            quicksortHelper(lista, 0, lista.length - 1, orderType);
+            this.tolist(lista);
+        }
+        return this;
+    }
+    
+    private void quicksortHelper(E[] lista, int low, int high, int orderType) throws Exception {
+        if (low < high) {
+            int pi = particion(lista, low, high, orderType);
+            quicksortHelper(lista, low, pi - 1, orderType);
+            quicksortHelper(lista, pi + 1, high, orderType);
+        }
+    }
+    
+    private int particion(E[] lista, int low, int high, int orderType) throws Exception {
+        E pivot = lista[high];
+        int i = (low - 1);  // Indice del elemento más pequeño
+        
+        for (int j = low; j < high; j++) {
+            if (compare(lista[j], pivot, orderType)) {
+                i++;
+                // intercambia
+                E temp = lista[i];
+                lista[i] = lista[j];
+                lista[j] = temp;
+            }
+        }
+        
+        E temp = lista[i + 1];
+        lista[i + 1] = lista[high];
+        lista[high] = temp;
+        
+        return i + 1;
+    }
+
+	// MergeSort
+	public MyLinkedList<E> merge_Sort(String attribute, Integer type) throws Exception {
+		if (!isEmptyLinkedList()) {
+			E[] lista = this.toArray();
+			reset();
+			lista = mergeSortHelper(lista, attribute, type);
+			this.tolist(lista);
+		}
+		return this;
+	}
+
+	private E[] mergeSortHelper(E[] lista, String attribute, Integer type) throws Exception {
+		if (lista.length <= 1) {
+			return lista;
+		}
+
+		int middle = lista.length / 2;
+		E[] left = Arrays.copyOfRange(lista, 0, middle);
+		E[] right = Arrays.copyOfRange(lista, middle, lista.length);
+
+		left = mergeSortHelper(left, attribute, type);
+		right = mergeSortHelper(right, attribute, type);
+
+		return mergeAttribute(left, right, attribute, type);
+	}
+
+	private E[] mergeAttribute(E[] left, E[] right, String attribute, Integer type) throws Exception {
+		E[] result = (E[]) new Object[left.length + right.length];
+		int i = 0, j = 0, k = 0;
+
+		while (i < left.length && j < right.length) {
+			if (atrribute_compare(attribute, left[i], right[j], type)) {
+				result[k++] = left[i++];
+			} else {
+				result[k++] = right[j++];
+			}
+		}
+
+		while (i < left.length) {
+			result[k++] = left[i++];
+		}
+
+		while (j < right.length) {
+			result[k++] = right[j++];
+		}
+
+		return result;
+	}
+	
+	public MyLinkedList<E> merge_Sort_byOrder(int orderType) throws Exception {
+	    if (!isEmptyLinkedList()) {
+	        E[] lista = this.toArray();
+	        reset();
+	        lista = mergesortHelper(lista, orderType);
+	        this.tolist(lista);
+	    }
+	    return this;
+	}
+
+	private E[] mergesortHelper(E[] lista, int orderType) throws Exception {
+	    if (lista.length <= 1) {
+	        return lista;
+	    }
+
+	    int middle = lista.length / 2;
+	    E[] left = Arrays.copyOfRange(lista, 0, middle);
+	    E[] right = Arrays.copyOfRange(lista, middle, lista.length);
+
+	    left = mergesortHelper(left, orderType);
+	    right = mergesortHelper(right, orderType);
+
+	    return merge(left, right, orderType);
+	}
+
+	private E[] merge(E[] izq, E[] der, int orderType) throws Exception {
+	    E[] result = (E[]) new Object[izq.length + der.length];
+	    int i = 0, j = 0, k = 0;
+
+	    while (i < izq.length && j < der.length) {
+	        if (compare(izq[i], der[j], orderType)) {
+	            result[k++] = izq[i++];
+	        } else {
+	            result[k++] = der[j++];
+	        }
+	    }
+
+	    while (i < izq.length) {
+	        result[k++] = izq[i++];
+	    }
+
+	    while (j < der.length) {
+	        result[k++] = der[j++];
+	    }
+
+	    return result;
+	}
+	
+//	Metodo Shell Sort
+	public MyLinkedList<E> shell_Sort(String attribute, Integer type) throws Exception {
+		if (!isEmptyLinkedList()) {
+			E[] lista = this.toArray(); 
+			int n = lista.length;
+			// gap -> intervalo de separacion
+			for (int gap = n / 2; gap > 0; gap /= 2) {
+				for (int i = gap; i < n; i++) {
+					E temp = lista[i];
+					int j;
+
+					// Compara elementos
+					for (j = i; j >= gap && atrribute_compare(attribute, lista[j - gap], temp, type); j -= gap) {
+						lista[j] = lista[j - gap];
+					}
+					lista[j] = temp;
+				}
+			}
+
+			this.tolist(lista);
+		}
+		return this;
+	}
+	
+	public MyLinkedList<E> shellSort_byOrder(int orderType) throws Exception {
+	    if (!isEmptyLinkedList()) {
+	        E[] lista = this.toArray();  
+	        reset();
+	        lista = shellSortHelper(lista, orderType);
+	        this.tolist(lista);  
+	    }
+	    return this;
+	}
+
+	private E[] shellSortHelper(E[] lista, int orderType) throws Exception {
+	    int n = lista.length;
+	    // Comienza con un gran gap y lo reduce a la mitad
+	    for (int gap = n / 2; gap > 0; gap /= 2) {
+	        // Realiza una inserción por salto (gap)
+	        for (int i = gap; i < n; i++) {
+	            E temp = lista[i];
+	            int j = i;
+	            
+	            while (j >= gap && compare(lista[j - gap], temp, orderType)) {
+	                lista[j] = lista[j - gap];
+	                j -= gap;
+	            }
+	            lista[j] = temp;
+	        }
+	    }
+	    return lista;
+	}
+
 }
