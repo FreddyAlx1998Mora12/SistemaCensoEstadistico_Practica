@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -98,6 +99,17 @@ public class AdapterDao<T> implements InterfaceDao<T> {
 		// Obtener por id
 		MyLinkedList<T> list = listAll(); // listAll es de esta clase, abarca todos los elementos agregados
 		return list.get(id);
+		
+		/*MyLinkedList<T> list = listAll();
+        if (!list.isEmptyLinkedList()) {
+            T[] matriz = list.toArray();
+            for (int i = 0; i < matriz.length; i++) {
+                if (getId(matriz[i]).intValue() == id.intValue()) {
+                    return matriz[i];
+                }
+            }
+        }
+        return null;*/
 	}
 
 	@Override
@@ -109,7 +121,7 @@ public class AdapterDao<T> implements InterfaceDao<T> {
 
 		String info = g.toJson(list.toArray());
 		// 3.
-		saveFile(info); //guarda
+		saveFile(info); // guarda
 	}
 
 	/*
@@ -166,6 +178,43 @@ public class AdapterDao<T> implements InterfaceDao<T> {
 		} catch (IOException e) {
 			System.out.println("Error al escribir en el archivo: " + e.getMessage());
 		}
+	}
+
+	// metodo que retorna un valor int (obtiene el identificador del objeto),
+	// parametro objeto tipo dato generico T
+	private Integer getId(T obj) throws Exception {
+		try {
+			// Declara una variable tipo method, un lang.reflect
+			Method method = null;
+			for (Method m : claseSerializer.getMethods()) { // obtiene los metodos de la clase o objeto a serializar, itera cada
+													// metodo
+				if (m.getName().equalsIgnoreCase("getId")) { // verifica que el metodo actual tenga el atributo tal ""
+																// ejm : el en objeto Persona getIdPersona
+					method = m; // asigna lo que devuelve el getId
+					break;
+				}
+			}
+			// si no encuentra el metodo, vuelve a iterar pero esta vez eleando a la clase
+			// padre
+			if (method == null) {
+				for (Method m : claseSerializer.getSuperclass().getMethods()) {
+					if (m.getName().equalsIgnoreCase("getId")) {
+						method = m;
+						break;
+					}
+				}
+			}
+
+			// si exite el method retorna una invoke
+			if (method != null)
+				return (Integer) method.invoke(obj);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Ocurrio algun error en la obtencion de getIdent de la clase, " + e.getMessage());
+			e.printStackTrace();
+			return -1;
+		}
+		return -1;
 	}
 
 }

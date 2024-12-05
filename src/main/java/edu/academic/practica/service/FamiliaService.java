@@ -25,7 +25,7 @@ public class FamiliaService {
 		familia_DAO.setFamilia(f);
 	}
 	
-	// veremos si es necesario esto
+	// Obtiene el generador de tal familia
 	public Generador getGenerador() {
 		return this.familia_DAO.getFamilia().getGenerador();
 	}
@@ -70,4 +70,75 @@ public class FamiliaService {
 	public boolean isHaveGenerador() {
 		return familia_DAO.haveGenerador();
 	}
+	
+	/*
+	 * ###########################################3
+	 * Metodos de Busqueda Lineal
+	 * ###########################################
+	 */
+	public Familia findById(int id) throws Exception{
+		return familia_DAO.buscarporIDCenso(id);
+	}
+	
+	public MyLinkedList findByDireccion(String criterio) throws Exception{
+		return familia_DAO.buscarporDireccion(criterio);
+	}
+	
+	public MyLinkedList<Familia> findByHaveGeneradors(boolean criterio) throws Exception{
+		return familia_DAO.buscarporGeneradors(criterio);
+	}
+	
+	public MyLinkedList<Familia> findByNroIntegrantes(int criterio) throws Exception{
+		return familia_DAO.buscarporNroIntegrantes(criterio);
+	}
+	
+	public Familia findByDescripcion(String criterio) throws Exception{
+		return familia_DAO.buscarporDescripcion(criterio);
+	}
+	
+	/*
+	 * ###########################################3
+	 * Metodos de Busqueda binario
+	 * ###########################################
+	 */
+	public Familia findByDescripcion_binar(String valor) throws Exception {
+		return familia_DAO.buscarporDescripcion_Binario(valor);
+	}
+	
+	public MyLinkedList<Familia> findByDireccion_binar(String criterio) throws Exception{
+		return familia_DAO.buscarporDireccion_Binario(criterio);
+	}
+	
+	public MyLinkedList<Familia> findByHaveGeneradors_binar(boolean criterio) throws Exception{
+		return familia_DAO.buscarporHaveGenerador_Binario(criterio);
+	}
+	
+	public MyLinkedList<Familia> findByNroIntegrantes_binar(int criterio) throws Exception{
+		return familia_DAO.buscarporNroIntegrantes_Binario(criterio);
+	}
+	
+	
+	// ordenacion por criterio
+	public MyLinkedList ordenarPorCriterio(int tipo_orden, String criterio) throws Exception{
+		return familia_DAO.ordenarLista(tipo_orden, criterio);
+	}
+	/*
+	 * ###########################################3
+	 * Metodos de Ordenacion
+	 * ###########################################
+	 */
+	
+	public MyLinkedList orderByQuickSort(int tipo_orden, String criterio) {
+		return familia_DAO.ordenarListaQuickSort(tipo_orden, criterio);
+	}
+	
+	public MyLinkedList orderByMergeSort(int tipo_orden, String criterio) {
+		return familia_DAO.ordenarListaMergeSort(tipo_orden, criterio);
+	}
+	
+	public MyLinkedList orderByShellSort(int tipo_orden, String criterio) {
+		return familia_DAO.ordenarListaShellSort(tipo_orden, criterio);
+	}
+	
+	
 }

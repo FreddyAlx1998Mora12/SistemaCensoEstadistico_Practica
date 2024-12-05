@@ -213,7 +213,7 @@ public class MyLinkedList<E> {
 		}
 	}
 
-	private void reset() {
+	public void reset() {
 		this.header = null;
 		this.last = null;
 		this.size = 0;

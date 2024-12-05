@@ -12,5 +12,40 @@
     "kw": 28,
     "costo": 750.5,
     "tipo": "Diesel"
+  },
+  {
+    "idGenerador": 3,
+    "consumo_litrosHora": 25,
+    "kw": 10,
+    "costo": 800.0,
+    "tipo": "Diesel"
+  },
+  {
+    "idGenerador": 4,
+    "consumo_litrosHora": 50,
+    "kw": 45,
+    "costo": 1500.0,
+    "tipo": "Gasolina"
+  },
+  {
+    "idGenerador": 5,
+    "consumo_litrosHora": 10,
+    "kw": 35,
+    "costo": 950.0,
+    "tipo": "Diesel"
+  },
+  {
+    "idGenerador": 6,
+    "consumo_litrosHora": 5,
+    "kw": 25,
+    "costo": 790.0,
+    "tipo": "Gasolina"
+  },
+  {
+    "idGenerador": 7,
+    "consumo_litrosHora": 15,
+    "kw": 45,
+    "costo": 795.0,
+    "tipo": "Electrico"
   }
 ]

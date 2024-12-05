@@ -23,9 +23,9 @@
   {
     "idCenso": 4,
     "nroIntegrantesFamilia": 8,
-    "descripcion": "local comercial de comidas modificado ",
+    "descripcion": "Local comercial de comidas modificado",
     "direccion": "Centro Norte M",
-    "haveGenerador": false,
+    "haveGenerador": true,
     "generador": {
       "idGenerador": 1,
       "consumo_litrosHora": 120,
@@ -54,5 +54,103 @@
       "costo": 750.5,
       "tipo": "Diesel"
     }
+  },
+  {
+    "idCenso": 7,
+    "nroIntegrantesFamilia": 4,
+    "descripcion": "Local De Venta de Comidas",
+    "direccion": "Centro Comercial_ Calle 10 de agosto",
+    "haveGenerador": true,
+    "generador": {
+      "idGenerador": 3,
+      "consumo_litrosHora": 25,
+      "kw": 10,
+      "costo": 800.0,
+      "tipo": "Diesel"
+    }
+  },
+  {
+    "idCenso": 8,
+    "nroIntegrantesFamilia": 10,
+    "descripcion": "Casa Comunal Ciudad Victoria",
+    "direccion": "Ciudad Victoria",
+    "haveGenerador": false
+  },
+  {
+    "idCenso": 9,
+    "nroIntegrantesFamilia": 17,
+    "descripcion": "Casa Comunal Yahuarcuna",
+    "direccion": "Yahuarcuna",
+    "haveGenerador": true,
+    "generador": {
+      "idGenerador": 4,
+      "consumo_litrosHora": 50,
+      "kw": 45,
+      "costo": 1500.0,
+      "tipo": "Gasolina"
+    }
+  },
+  {
+    "idCenso": 10,
+    "nroIntegrantesFamilia": 7,
+    "descripcion": "Local de Comidas Agachaditos",
+    "direccion": "Centro - Parque Bolivar",
+    "haveGenerador": true,
+    "generador": {
+      "idGenerador": 5,
+      "consumo_litrosHora": 10,
+      "kw": 35,
+      "costo": 950.0,
+      "tipo": "Diesel"
+    }
+  },
+  {
+    "idCenso": 11,
+    "nroIntegrantesFamilia": 7,
+    "descripcion": "Bazar Familiar ",
+    "direccion": "Centro Comercial - Calle 18 de Noviembre",
+    "haveGenerador": true,
+    "generador": {
+      "idGenerador": 6,
+      "consumo_litrosHora": 5,
+      "kw": 25,
+      "costo": 790.0,
+      "tipo": "Gasolina"
+    }
+  },
+  {
+    "idCenso": 12,
+    "nroIntegrantesFamilia": 12,
+    "descripcion": "Casa Comunal Obrapia",
+    "direccion": "Obrapia",
+    "haveGenerador": true,
+    "generador": {
+      "idGenerador": 7,
+      "consumo_litrosHora": 15,
+      "kw": 45,
+      "costo": 795.0,
+      "tipo": "Electrico"
+    }
+  },
+  {
+    "idCenso": 13,
+    "nroIntegrantesFamilia": 3,
+    "descripcion": "Local de Barberia BrosTattos",
+    "direccion": "Centro - Calle 24 de Mayo",
+    "haveGenerador": false
+  },
+  {
+    "idCenso": 14,
+    "nroIntegrantesFamilia": 4,
+    "descripcion": "Local de Barberia Sumaq",
+    "direccion": "Centro - Calle Juan Jose Penia",
+    "haveGenerador": false
+  },
+  {
+    "idCenso": 15,
+    "nroIntegrantesFamilia": 8,
+    "descripcion": "Casa Comunal Celi Roman",
+    "direccion": "Celi Roman",
+    "haveGenerador": false
   }
 ]
